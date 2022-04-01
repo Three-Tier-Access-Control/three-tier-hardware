@@ -10,6 +10,7 @@ router = APIRouter(tags=["LED"])
 async def turn_on_led(pin: Pin):
     led = LED(pin.number)
     led.on()
+    sleep(1)
     return {"data": "Turned on LED"}
 
 
@@ -17,6 +18,7 @@ async def turn_on_led(pin: Pin):
 async def turn_off_led(pin: Pin):
     led = LED(pin.number)
     led.off()
+    sleep(1)
     return {"data": "Turned off LED"}
 
 @router.post("/blink-led")
