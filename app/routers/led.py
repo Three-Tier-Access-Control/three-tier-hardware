@@ -30,4 +30,4 @@ async def blink_led(pin: Pin):
     sleep(1)
     GPIO.output(pin.number, GPIO.LOW)
     sleep(1)
-    return {"data" : "Blinked for 2 seconds"}
+    return {"data" : "Blinked for a second"}
