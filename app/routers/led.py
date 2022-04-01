@@ -26,9 +26,8 @@ async def turn_off_led(pin: Pin):
 
 @router.post("/blink-led")
 async def blink_led(pin: Pin):
-    for x in range(5):
-        GPIO.output(pin.number, GPIO.HIGH)
-        sleep(1)
-        GPIO.output(pin.number, GPIO.LOW)
-        sleep(1)
-    return {"data" : "Blinked for while"}
+    GPIO.output(pin.number, GPIO.HIGH)
+    sleep(1)
+    GPIO.output(pin.number, GPIO.LOW)
+    sleep(1)
+    return {"data" : "Blinked for 2 seconds"}
