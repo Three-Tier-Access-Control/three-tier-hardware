@@ -3,6 +3,8 @@ from gpiozero import LED
 from time import sleep
 from fastapi.middleware.cors import CORSMiddleware
 
+from schema import Pin
+
 app = FastAPI()
 
 
@@ -25,8 +27,8 @@ async def root():
 
 
 @app.post("/blink-led")
-async def blink_led(pin: int):
-    led = LED(pin)
+async def blink_led(pin: Pin):
+    led = LED(pin.number)
     for x in range(6):
         led.on()
         sleep(1)
