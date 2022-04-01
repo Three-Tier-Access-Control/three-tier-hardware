@@ -41,11 +41,29 @@ def get_fingerprint():
         pass
     print("Templating...")
     if finger.image_2_tz(1) != adafruit_fingerprint.OK:
-        return False
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Finger not found",
+        )
+        # return False
     print("Searching...")
     if finger.finger_search() != adafruit_fingerprint.OK:
-        return False
-    return True
+        print("Finger not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Finger not found",
+        )
+        # return False
+
+    # return True
+    print("Detected #", finger.finger_id, "with confidence", finger.confidence)
+    return {
+        "data": {
+            "msg": f"Detected #, {finger.finger_id}, with confidence, {finger.confidence}",
+            "finger": finger.finger_id,
+            "confidence": finger.confidence,
+        }
+    }
 
 
 # pylint: disable=too-many-branches
@@ -121,10 +139,18 @@ def enroll_finger(fingerprint: Fingerprint):
                 print(".", end="", flush=True)
             elif i == adafruit_fingerprint.IMAGEFAIL:
                 print("Imaging error")
-                return False
+                # return False
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Imaging error",
+                )
             else:
                 print("Other error")
-                return False
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Other error",
+                )
+                # return False
 
         print("Templating...", end="", flush=True)
         i = finger.image_2_tz(fingerimg)
@@ -133,13 +159,29 @@ def enroll_finger(fingerprint: Fingerprint):
         else:
             if i == adafruit_fingerprint.IMAGEMESS:
                 print("Image too messy")
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Image too messy",
+                )
             elif i == adafruit_fingerprint.FEATUREFAIL:
                 print("Could not identify features")
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Could not identify features",
+                )
             elif i == adafruit_fingerprint.INVALIDIMAGE:
                 print("Image invalid")
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Image invalid",
+                )
             else:
                 print("Other error")
-            return False
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Other error",
+                )
+            # return False
 
         if fingerimg == 1:
             print("Remove finger")
@@ -154,9 +196,17 @@ def enroll_finger(fingerprint: Fingerprint):
     else:
         if i == adafruit_fingerprint.ENROLLMISMATCH:
             print("Prints did not match")
+            raise HTTPException(
+                status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                detail="Prints did not match",
+            )
         else:
             print("Other error")
-        return False
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Other error",
+            )
+        # return False
 
     print("Storing model #%d..." % fingerprint.location, end="", flush=True)
     i = finger.store_model(fingerprint.location)
@@ -165,30 +215,50 @@ def enroll_finger(fingerprint: Fingerprint):
     else:
         if i == adafruit_fingerprint.BADLOCATION:
             print("Bad storage location")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Bad storage location",
+            )
         elif i == adafruit_fingerprint.FLASHERR:
             print("Flash storage error")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Flash storage error",
+            )
         else:
             print("Other error")
-        return False
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Other error",
+            )
+        # return False
 
     return True
 
 
-
 @router.delete("/delete-fingerprint")
 async def delete_fingerprint(fingerprint: Fingerprint):
-        if finger.delete_model(fingerprint.location) == adafruit_fingerprint.OK:
-            print("Deleted!")
-            return Response(status_code=status.HTTP_204_NO_CONTENT)
-        else:
-            print("Failed to delete")
+    if finger.delete_model(fingerprint.location) == adafruit_fingerprint.OK:
+        print("Deleted!")
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+    else:
+        print("Failed to delete")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to delete",
+        )
+
 
 @router.get("/fingerprint-templates")
 async def get_fingerprint_templates():
     if finger.read_templates() != adafruit_fingerprint.OK:
-        raise RuntimeError("Failed to read templates")
+        # raise RuntimeError("Failed to read templates")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to read templates",
+        )
     print("Fingerprint templates:", finger.templates)
-    return {"data" : finger.templates}
+    return {"data": finger.templates}
 
 
 ##################################################
@@ -218,13 +288,13 @@ async def get_fingerprint_templates():
 
 #     if c == "e":
 #         enroll_finger(get_num())
-    # if c == "f":
-    #     if get_fingerprint():
-    #         print("Detected #", finger.finger_id, "with confidence", finger.confidence)
-    #     else:
-    #         print("Finger not found")
-    # if c == "d":
-    #     if finger.delete_model(get_num()) == adafruit_fingerprint.OK:
-    #         print("Deleted!")
-    #     else:
-    #         print("Failed to delete")
+# if c == "f":
+#     if get_fingerprint():
+#         print("Detected #", finger.finger_id, "with confidence", finger.confidence)
+#     else:
+#         print("Finger not found")
+# if c == "d":
+#     if finger.delete_model(get_num()) == adafruit_fingerprint.OK:
+#         print("Deleted!")
+#     else:
+#         print("Failed to delete")
