@@ -175,7 +175,7 @@ def enroll_finger(fingerprint: Fingerprint):
 
 
 
-@router.delete("/enroll-fingerprint")
+@router.delete("/delete-fingerprint")
 async def delete_fingerprint(fingerprint: Fingerprint):
         if finger.delete_model(fingerprint.location) == adafruit_fingerprint.OK:
             print("Deleted!")
