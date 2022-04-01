@@ -21,7 +21,7 @@ async def turn_on_led(pin: Pin):
 
 @router.post("/turn-off-led")
 async def turn_off_led(pin: Pin):
-    GPIO.output(pin.number, GPIO.HIGH)
+    GPIO.output(pin.number, GPIO.LOW)
     return {"data": "Turned off LED"}
 
 @router.post("/blink-led")
