@@ -26,14 +26,14 @@ async def read_rfid_card():
 
 
 # Write data to RFID Card
-@router.get("/write-to-rfid-card")
+@router.post("/write-to-rfid-card")
 async def write_to_rfid_card(data: RFIDData):
     reader = SimpleMFRC522()
     try:
         print("Now place your tag to write")
         reader.write(data.text)
         print("Written")
-        return {"data": "Card successfully written!"}
+        return {"detail": "Card successfully written!"}
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
