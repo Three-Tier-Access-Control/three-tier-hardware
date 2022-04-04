@@ -7,3 +7,5 @@ class Pin(BaseModel):
 class Fingerprint(BaseModel):
     location: int
 
+class RFIDData(BaseModel):
+    text: str
