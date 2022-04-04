@@ -1,3 +1,7 @@
+Adafruit-Blinka==7.2.0
+adafruit-circuitpython-fingerprint==2.2.4
+Adafruit-PlatformDetect==3.22.0
+Adafruit-PureIO==1.1.9
 anyio==3.5.0
 asgiref==3.5.0
 black==22.3.0
@@ -20,8 +24,11 @@ orjson==3.6.7
 pathspec==0.9.0
 platformdirs==2.5.1
 pydantic==1.9.0
+pyftdi==0.54.0
+pyserial==3.5
 python-dotenv==0.20.0
 python-multipart==0.0.5
+pyusb==1.2.1
 PyYAML==5.4.1
 requests==2.27.1
 RPi.GPIO==0.7.1
