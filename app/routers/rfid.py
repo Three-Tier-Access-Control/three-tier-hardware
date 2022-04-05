@@ -3,7 +3,6 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from schema import RFIDData
 
-reader = SimpleMFRC522()
 
 
 router = APIRouter(tags=["RFID Cards"])
@@ -12,6 +11,7 @@ router = APIRouter(tags=["RFID Cards"])
 @router.get("/read-rfid-card")
 async def read_rfid_card():
     try:
+        reader = SimpleMFRC522()
         id, text = reader.read()
         print(id)
         print(text)
