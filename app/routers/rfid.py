@@ -12,6 +12,7 @@ router = APIRouter(tags=["RFID Cards"])
 async def read_rfid_card():
     try:
         reader = SimpleMFRC522()
+        print("reading...") 
         id, text = reader.read()
         print(id)
         print(text)
@@ -28,8 +29,8 @@ async def read_rfid_card():
 # Write data to RFID Card
 @router.post("/write-to-rfid-card")
 async def write_to_rfid_card(data: RFIDData):
-    reader = SimpleMFRC522()
     try:
+        reader = SimpleMFRC522()
         print("Now place your tag to write")
         reader.write(data.text)
         print("Written")
