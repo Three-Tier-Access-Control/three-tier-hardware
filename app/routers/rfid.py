@@ -12,7 +12,7 @@ router = APIRouter(tags=["RFID Cards"])
 async def read_rfid_card():
     try:
         reader = SimpleMFRC522()
-        print("reading...") 
+        print("Place your tag to read...") 
         id, text = reader.read()
         print(id)
         print(text)
