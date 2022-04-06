@@ -9,3 +9,6 @@ class Fingerprint(BaseModel):
 
 class RFIDData(BaseModel):
     text: str
+
+class LCDData(BaseModel):
+    text: str
