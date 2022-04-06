@@ -3,6 +3,11 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from schema import RFIDData
 
+import drivers.I2C_LCD_driver as I2C_LCD_driver
+from time import *
+
+mylcd = I2C_LCD_driver.lcd()
+
 
 
 router = APIRouter(tags=["RFID Cards"])
@@ -13,9 +18,10 @@ async def read_rfid_card():
     try:
         reader = SimpleMFRC522()
         print("Place your tag to read...") 
+        mylcd.lcd_display_string("Place your tag to read...", 1)
         id, text = reader.read()
-        print(id)
-        print(text)
+        print(f"Tag read #: {id} \n Data: {text}")
+        mylcd.lcd_display_string("Tag has been read!", 1)
         return {"data": {"uid": id, "text": text}}
     except Exception as e:
         raise HTTPException(
@@ -32,9 +38,11 @@ async def write_to_rfid_card(data: RFIDData):
     try:
         reader = SimpleMFRC522()
         print("Now place your tag to write")
+        mylcd.lcd_display_string("Place your tag to write...", 1)
         reader.write(data.text)
-        print("Written")
-        return {"detail": "Card successfully written!"}
+        print("Tag has been successfully written!")
+        mylcd.lcd_display_string("Tag has been successfully written!", 1)        
+        return {"detail": "Tag has been successfully written!"}
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
