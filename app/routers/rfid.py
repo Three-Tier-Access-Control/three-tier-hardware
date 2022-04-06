@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from schema import RFIDData
 
-import drivers.I2C_LCD_driver as I2C_LCD_driver
+import app.routers.I2C_LCD_driver as I2C_LCD_driver
 from time import *
 
 mylcd = I2C_LCD_driver.lcd()
