@@ -25,7 +25,7 @@ async def root():
     return {"message": "Hello World"}
 
 
-app.include_router(led.router)
-app.include_router(fingerprint.router)
-app.include_router(rfid.router)
+# app.include_router(led.router)
+# app.include_router(fingerprint.router)
+# app.include_router(rfid.router)
 app.include_router(lcd.router)
