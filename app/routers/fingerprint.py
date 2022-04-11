@@ -46,24 +46,24 @@ router = APIRouter(tags=["Fingerprint"])
 def get_fingerprint():
     """Get a finger print image, template it, and see if it matches!"""
     print("Waiting for image...")
-    mylcd.lcd_display_string("Waiting for fingerprint image...", 1)
+    mylcd.lcd_display_string("Waiting for fingerprint image...")
     while finger.get_image() != adafruit_fingerprint.OK:
         pass
     print("Templating...")
-    mylcd.lcd_display_string("Templating fingerprint image...", 1)
+    mylcd.lcd_display_string("Templating fingerprint image...")
     if finger.image_2_tz(1) != adafruit_fingerprint.OK:
         print("Finger not found")
-        mylcd.lcd_display_string("Finger not found", 1)
+        mylcd.lcd_display_string("Finger not found")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Finger not found",
         )
         # return False
     print("Searching for a match...")
-    mylcd.lcd_display_string("Searching for a match...", 1)
+    mylcd.lcd_display_string("Searching for a match...")
     if finger.finger_search() != adafruit_fingerprint.OK:
         print("Finger not found")
-        mylcd.lcd_display_string("Finger not found", 1)
+        mylcd.lcd_display_string("Finger not found")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Finger not found",
@@ -72,7 +72,7 @@ def get_fingerprint():
 
     # return True
     print("Detected #", finger.finger_id, "with confidence", finger.confidence)
-    mylcd.lcd_display_string("Fingerprint match detected", 1)
+    mylcd.lcd_display_string("Fingerprint match detected")
     return {
         "data": {
             "msg": f"Detected #, {finger.finger_id}, with confidence, {finger.confidence}",
@@ -142,24 +142,24 @@ def enroll_finger(fingerprint: Fingerprint):
 
     for fingerimg in range(1, 3):
         if fingerimg == 1:
-            mylcd.lcd_display_string("Place finger on sensor...", 1)
+            mylcd.lcd_display_string("Place finger on sensor...")
             print("Place finger on sensor...", end="", flush=True)
         else:
-            mylcd.lcd_display_string("Place same finger again...", 1)
+            mylcd.lcd_display_string("Place same finger again...")
             print("Place same finger again...", end="", flush=True)
 
         while True:
             i = finger.get_image()
             if i == adafruit_fingerprint.OK:
                 print("Image taken")
-                mylcd.lcd_display_string("Fingerprint image taken", 1)
+                mylcd.lcd_display_string("Fingerprint image taken")
                 break
             if i == adafruit_fingerprint.NOFINGER:
-                mylcd.lcd_display_string(".", 1)
+                mylcd.lcd_display_string(".")
                 print(".", end="", flush=True)
             elif i == adafruit_fingerprint.IMAGEFAIL:
                 print("Imaging error")
-                mylcd.lcd_display_string("Imaging error", 1)
+                mylcd.lcd_display_string("Imaging error")
                 # return False
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -167,7 +167,7 @@ def enroll_finger(fingerprint: Fingerprint):
                 )
             else:
                 print("Other error")
-                mylcd.lcd_display_string("Internal error", 1)
+                mylcd.lcd_display_string("Internal error")
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                     detail="Other error",
@@ -175,23 +175,23 @@ def enroll_finger(fingerprint: Fingerprint):
                 # return False
 
         print("Templating...", end="", flush=True)
-        mylcd.lcd_display_string("Templating fingerprint...", 1)
+        mylcd.lcd_display_string("Templating fingerprint...")
 
         i = finger.image_2_tz(fingerimg)
         if i == adafruit_fingerprint.OK:
             print("Templated")
-            mylcd.lcd_display_string("Templating done!", 1)
+            mylcd.lcd_display_string("Templating done!")
 
         else:
             if i == adafruit_fingerprint.IMAGEMESS:
                 print("Image too messy")
-                mylcd.lcd_display_string("Fingerprint image too messy", 1)
+                mylcd.lcd_display_string("Fingerprint image too messy")
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                     detail="Image too messy",
                 )
             elif i == adafruit_fingerprint.FEATUREFAIL:
-                mylcd.lcd_display_string("Could not identify features", 1)
+                mylcd.lcd_display_string("Could not identify features")
                 print("Could not identify features")
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -199,13 +199,13 @@ def enroll_finger(fingerprint: Fingerprint):
                 )
             elif i == adafruit_fingerprint.INVALIDIMAGE:
                 print("Image invalid")
-                mylcd.lcd_display_string("Fingerprint image invalid", 1)
+                mylcd.lcd_display_string("Fingerprint image invalid")
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                     detail="Image invalid",
                 )
             else:
-                mylcd.lcd_display_string("Internal error", 1)
+                mylcd.lcd_display_string("Internal error")
                 print("Other error")
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -215,29 +215,29 @@ def enroll_finger(fingerprint: Fingerprint):
 
         if fingerimg == 1:
             print("Remove finger")
-            mylcd.lcd_display_string("Remove finger", 1)
+            mylcd.lcd_display_string("Remove finger")
             # time.sleep(1) #not sure why but just remove it
             while i != adafruit_fingerprint.NOFINGER:
                 i = finger.get_image()
 
     print("Creating model...", end="", flush=True)
-    mylcd.lcd_display_string("Creating model...", 1)
+    mylcd.lcd_display_string("Creating model...")
 
     i = finger.create_model()
     if i == adafruit_fingerprint.OK:
         print("Created")
-        mylcd.lcd_display_string("Created...", 1)
+        mylcd.lcd_display_string("Created...")
     else:
         if i == adafruit_fingerprint.ENROLLMISMATCH:
             print("Prints did not match")
-            mylcd.lcd_display_string("Prints did not match", 1)
+            mylcd.lcd_display_string("Prints did not match")
             raise HTTPException(
                 status_code=status.HTTP_406_NOT_ACCEPTABLE,
                 detail="Prints did not match",
             )
         else:
             print("Other error")
-            mylcd.lcd_display_string("Internal error", 1)
+            mylcd.lcd_display_string("Internal error")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Other error",
@@ -245,29 +245,29 @@ def enroll_finger(fingerprint: Fingerprint):
         # return False
 
     print("Storing model #%d..." % fingerprint.location, end="", flush=True)
-    mylcd.lcd_display_string("Storing model...", 1)
+    mylcd.lcd_display_string("Storing model...")
     i = finger.store_model(fingerprint.location)
     if i == adafruit_fingerprint.OK:
         print("Stored")
-        mylcd.lcd_display_string("Fingerprint stored", 1)
+        mylcd.lcd_display_string("Fingerprint stored")
     else:
         if i == adafruit_fingerprint.BADLOCATION:
             print("Bad storage location")
-            mylcd.lcd_display_string("Bad storage location", 1)
+            mylcd.lcd_display_string("Bad storage location")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Bad storage location",
             )
         elif i == adafruit_fingerprint.FLASHERR:
             print("Flash storage error")
-            mylcd.lcd_display_string("Flash storage error", 1)
+            mylcd.lcd_display_string("Flash storage error")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Flash storage error",
             )
         else:
             print("Other error")
-            mylcd.lcd_display_string("Internal error", 1)
+            mylcd.lcd_display_string("Internal error")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Other error",
