@@ -216,7 +216,7 @@ def enroll_finger(fingerprint: Fingerprint):
         if fingerimg == 1:
             print("Remove finger")
             mylcd.lcd_display_string("Remove finger", 1)
-            time.sleep(1)
+            # time.sleep(1) #not sure why but just remove it
             while i != adafruit_fingerprint.NOFINGER:
                 i = finger.get_image()
 
