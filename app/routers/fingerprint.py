@@ -36,7 +36,7 @@ from time import *
 mylcd = I2C_LCD_driver.lcd()
 
 
-router = APIRouter(tags=["Fingerprint"])
+router = APIRouter(tags=["Fingerprints Module"])
 
 
 ##################################################

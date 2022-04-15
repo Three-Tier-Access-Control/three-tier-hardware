@@ -4,7 +4,43 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import fingerprint, lcd, rfid
 
-app = FastAPI()
+tags_metadata = [
+    {
+        "name": "LCD Display Module",
+        "description": "Display text to LCD Display Module.",
+    },
+    {
+        "name": "LED Lights",
+        "description": "Turn on and off LED Lights.",
+    },
+    {
+        "name": "RFID Module",
+        "description": "Read and Write to RFID Cards.",
+    },
+    {
+        "name": "Fingerprints Module",
+        "description": "Enroll, Find and Delete Fingerprints",
+    }
+]
+
+app = FastAPI(
+    title="Three Tier Access Control Security System - Hardware Modules API ",
+    description="REST API for Three Tier Access Control Security System Hardware",
+    version="0.0.1",
+    terms_of_service="http://example.com/terms/",
+    contact={
+        "name": "Ashley T Shumba",
+        "url": "https://ashleytshumba.co.zw",
+        "email": "ashleytshumba@gmail.com",
+    },
+    license_info={
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
+    },
+    openapi_url="/api/v1/openapi.json",
+    openapi_tags=tags_metadata
+
+)
 
 
 

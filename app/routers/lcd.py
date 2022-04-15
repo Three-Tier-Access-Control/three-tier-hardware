@@ -6,7 +6,7 @@ mylcd = I2C_LCD_driver.lcd()
 
 
 
-router = APIRouter(tags=["LCD Display"])
+router = APIRouter(tags=["LCD Display Module"])
 
 
 @router.post("/write-to-lcd")

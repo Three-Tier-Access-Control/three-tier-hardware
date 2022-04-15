@@ -10,7 +10,7 @@ mylcd = I2C_LCD_driver.lcd()
 
 
 
-router = APIRouter(tags=["RFID Cards"])
+router = APIRouter(tags=["RFID Module"])
 
 # Read data to RFID Card
 @router.get("/read-rfid-card")

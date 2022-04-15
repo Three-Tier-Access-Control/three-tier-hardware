@@ -8,7 +8,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 
-router = APIRouter(tags=["LED"])
+router = APIRouter(tags=["LED Lights"])
 
 
 @router.post("/turn-on-led")
