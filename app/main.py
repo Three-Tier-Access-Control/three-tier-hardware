@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from time import sleep
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import fingerprint, lcd, rfid
+from app.routers import fingerprint, lcd, rfid, gpio
 
 tags_metadata = [
     {
@@ -16,6 +16,10 @@ tags_metadata = [
     {
         "name": "RFID Module",
         "description": "Read and Write to RFID Cards.",
+    },
+    {
+        "name": "GPIO Pins",
+        "description": "Control GPIO Pins",
     },
     {
         "name": "Fingerprints Module",
@@ -65,3 +69,4 @@ async def root():
 app.include_router(fingerprint.router)
 app.include_router(rfid.router)
 app.include_router(lcd.router)
+app.include_router(gpio.router)
