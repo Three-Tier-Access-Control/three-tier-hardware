@@ -42,7 +42,7 @@ router = APIRouter(tags=["Fingerprints Module"])
 ##################################################
 
 
-@router.post("/read-fingerprint")
+@router.get("/read-fingerprint")
 def get_fingerprint():
     """Get a finger print image, template it, and see if it matches!"""
     print("Waiting for image...")
