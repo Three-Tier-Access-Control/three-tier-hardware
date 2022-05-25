@@ -2,12 +2,22 @@
 
 Change pin factory
 
-`export GPIOZERO_PIN_FACTORY=native`
-
+```sh
+export GPIOZERO_PIN_FACTORY=native
+```
 Install command
 
-`pip install -r requirements.txt`
+```sh
+pip install -r requirements.txt
+```
 
-Run command
 
-`uvicorn app.main:app --host 0.0.0.0 --port 8000`
+## run on localhost
+
+```sh
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+```sh
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
