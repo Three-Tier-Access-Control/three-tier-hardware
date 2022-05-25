@@ -5,7 +5,7 @@ from schema import LCDData
 mylcd = I2C_LCD_driver.lcd()
 
 
-def print_to_lcd(first_row: str, second_row: str):
+def print_to_lcd(first_row: str = "", second_row: str = ""):
     # Clear everything first the print new
     mylcd.lcd_display_string("", 1)
     mylcd.lcd_display_string("", 2)
