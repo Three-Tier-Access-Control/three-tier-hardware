@@ -49,6 +49,7 @@ async def write_to_rfid_card(data: RFIDData):
 
         return {"detail": "Tag has been successfully written!"}
     except Exception as e:
+        print(f"Error: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error: {e}",
