@@ -24,7 +24,7 @@ tags_metadata = [
     {
         "name": "Fingerprints Module",
         "description": "Enroll, Find and Delete Fingerprints",
-    }
+    },
 ]
 
 app = FastAPI(
@@ -42,10 +42,8 @@ app = FastAPI(
         "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
     },
     openapi_url="/api/v1/openapi.json",
-    openapi_tags=tags_metadata
-
+    openapi_tags=tags_metadata,
 )
-
 
 
 origins = [
@@ -60,13 +58,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
 
 # app.include_router(led.router)
-app.include_router(fingerprint.router)
-app.include_router(rfid.router)
-app.include_router(lcd.router)
-app.include_router(gpio.router)
+app.include_router(
+    fingerprint.router,
+    prefix="/api/v1",
+)
+app.include_router(
+    rfid.router,
+    prefix="/api/v1",
+)
+app.include_router(
+    lcd.router,
+    prefix="/api/v1",
+)
+app.include_router(
+    gpio.router,
+    prefix="/api/v1",
+)
