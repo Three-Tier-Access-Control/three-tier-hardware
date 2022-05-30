@@ -44,24 +44,24 @@ router = APIRouter(tags=["Fingerprints Module"])
 def get_fingerprint():
     """Get a finger print image, template it, and see if it matches!"""
     print("Waiting for image...")
-    print_to_lcd("Place your ", "finger...")
+    print_to_lcd("Place finger")
     while finger.get_image() != adafruit_fingerprint.OK:
         pass
     print("Templating...")
-    print_to_lcd("Templating your", "fingerprint...")
+    print_to_lcd("Templating...")
     if finger.image_2_tz(1) != adafruit_fingerprint.OK:
         print("Finger not found")
-        print_to_lcd("Finger not found")
+        print_to_lcd("Not found")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Finger not found",
         )
         # return False
     print("Searching for a match...")
-    print_to_lcd("Searching for a", "match...")
+    print_to_lcd("Searching...")
     if finger.finger_search() != adafruit_fingerprint.OK:
         print("Finger not found")
-        print_to_lcd("Finger not found")
+        print_to_lcd("Not found")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Finger not found",
@@ -70,7 +70,7 @@ def get_fingerprint():
 
     # return True
     print("Detected #", finger.finger_id, "with confidence", finger.confidence)
-    print_to_lcd("Fingerprint", "match found!")
+    print_to_lcd("Match found!")
     return {
         "data": {
             "msg": f"Detected #, {finger.finger_id}, with confidence, {finger.confidence}",
@@ -140,17 +140,17 @@ def enroll_finger(fingerprint: Fingerprint):
 
     for fingerimg in range(1, 3):
         if fingerimg == 1:
-            print_to_lcd("Place finger on", "sensor...")
+            print_to_lcd("Place finger (1)")
             print("Place finger on sensor...", end="", flush=True)
         else:
-            print_to_lcd("Place same ", "finger again...")
+            print_to_lcd("Place finger (2)")
             print("Place same finger again...", end="", flush=True)
 
         while True:
             i = finger.get_image()
             if i == adafruit_fingerprint.OK:
                 print("Image taken")
-                print_to_lcd("Fingerprint image taken")
+                print_to_lcd("Image taken")
                 break
             if i == adafruit_fingerprint.NOFINGER:
                 print_to_lcd(".")
@@ -173,7 +173,7 @@ def enroll_finger(fingerprint: Fingerprint):
                 # return False
 
         print("Templating...", end="", flush=True)
-        print_to_lcd("Templating your", "fingerprint...")
+        print_to_lcd("Templating...")
 
         i = finger.image_2_tz(fingerimg)
         if i == adafruit_fingerprint.OK:
@@ -183,13 +183,13 @@ def enroll_finger(fingerprint: Fingerprint):
         else:
             if i == adafruit_fingerprint.IMAGEMESS:
                 print("Image too messy")
-                print_to_lcd("Fingerprint image", "too messy")
+                print_to_lcd("Internal error")
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                     detail="Image too messy",
                 )
             elif i == adafruit_fingerprint.FEATUREFAIL:
-                print_to_lcd("Could not ", "identify features")
+                print_to_lcd("Internal error")
                 print("Could not identify features")
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -197,7 +197,7 @@ def enroll_finger(fingerprint: Fingerprint):
                 )
             elif i == adafruit_fingerprint.INVALIDIMAGE:
                 print("Image invalid")
-                print_to_lcd("Fingerprint image", "invalid")
+                print_to_lcd("Internal error")
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                     detail="Image invalid",
@@ -219,7 +219,7 @@ def enroll_finger(fingerprint: Fingerprint):
                 i = finger.get_image()
 
     print("Creating model...", end="", flush=True)
-    print_to_lcd("Creating model...")
+    print_to_lcd("Creating model")
 
     i = finger.create_model()
     if i == adafruit_fingerprint.OK:
@@ -228,7 +228,7 @@ def enroll_finger(fingerprint: Fingerprint):
     else:
         if i == adafruit_fingerprint.ENROLLMISMATCH:
             print("Prints did not match")
-            print_to_lcd("Prints did not", "match")
+            print_to_lcd("No match")
             raise HTTPException(
                 status_code=status.HTTP_406_NOT_ACCEPTABLE,
                 detail="Prints did not match",
@@ -243,7 +243,7 @@ def enroll_finger(fingerprint: Fingerprint):
         # return False
 
     print("Storing model #%d..." % fingerprint.location, end="", flush=True)
-    print_to_lcd("Storing model...")
+    print_to_lcd("Storing...")
     i = finger.store_model(fingerprint.location)
     if i == adafruit_fingerprint.OK:
         print("Stored")
@@ -251,14 +251,14 @@ def enroll_finger(fingerprint: Fingerprint):
     else:
         if i == adafruit_fingerprint.BADLOCATION:
             print("Bad storage location")
-            print_to_lcd("Bad storage", "location")
+            print_to_lcd("Internal error")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Bad storage location",
             )
         elif i == adafruit_fingerprint.FLASHERR:
             print("Flash storage error")
-            print_to_lcd("Flash storage", "error")
+            print_to_lcd("Internal error")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Flash storage error",
