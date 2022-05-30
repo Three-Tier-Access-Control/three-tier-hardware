@@ -7,6 +7,7 @@ mylcd = I2C_LCD_driver.lcd()
 
 
 def print_to_lcd(text: str):
+    mylcd.lcd_clear() # clear screen
     mylcd.lcd_display_string(text, 1)
 
 
