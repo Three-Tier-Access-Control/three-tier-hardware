@@ -44,7 +44,7 @@ router = APIRouter(tags=["Fingerprints Module"])
 def get_fingerprint():
     """Get a finger print image, template it, and see if it matches!"""
     print("Waiting for image...")
-    print_to_lcd("Place your ", "fingerprint...")
+    print_to_lcd("Place your ", "finger...")
     while finger.get_image() != adafruit_fingerprint.OK:
         pass
     print("Templating...")
@@ -70,7 +70,7 @@ def get_fingerprint():
 
     # return True
     print("Detected #", finger.finger_id, "with confidence", finger.confidence)
-    print_to_lcd("Fingerprint match", "found!")
+    print_to_lcd("Fingerprint", "match found!")
     return {
         "data": {
             "msg": f"Detected #, {finger.finger_id}, with confidence, {finger.confidence}",
