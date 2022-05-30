@@ -48,7 +48,7 @@ def get_fingerprint():
     while finger.get_image() != adafruit_fingerprint.OK:
         pass
     print("Templating...")
-    print_to_lcd("Templating your", "fingerprint image...")
+    print_to_lcd("Templating your", "fingerprint...")
     if finger.image_2_tz(1) != adafruit_fingerprint.OK:
         print("Finger not found")
         print_to_lcd("Finger not found")
