@@ -16,5 +16,5 @@ router = APIRouter(tags=["LCD Display Module"])
 
 @router.post("/write-to-lcd")
 async def write_to_lcd(data: LCDData):
-    mylcd.lcd_display_string(data.text, 1)
+    print_to_lcd(data.text)
     return {"detail": "Data successfully written on LCD"}
