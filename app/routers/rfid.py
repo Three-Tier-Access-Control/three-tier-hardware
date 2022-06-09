@@ -17,10 +17,10 @@ async def read_rfid_card():
         reader = SimpleMFRC522()
         print("Place your tag to read...")
         print_to_lcd("Place card")
-        id, text = reader.read()
-        print(f"Tag read #: {id} \n Data: {text}")
+        uid, employee_id = reader.read()
+        print(f"Tag read #: {id} \n Data: {employee_id}")
         print_to_lcd("Card read!")
-        return {"data": {"uid": id, "text": text}}
+        return {"data": {"uid": uid, "employee_id": employee_id}}
     except Exception as e:
         print(f"Error: {e}")
         raise HTTPException(
@@ -38,7 +38,7 @@ async def write_to_rfid_card(data: RFIDData):
         reader = SimpleMFRC522()
         print("Now place your tag to write")
         print_to_lcd("Place card")
-        reader.write(data.text)
+        reader.write(data.employee_id)
         print("Tag has been successfully written!")
         print_to_lcd("Card written!")
 

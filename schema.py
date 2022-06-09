@@ -8,7 +8,7 @@ class Fingerprint(BaseModel):
     location: int
 
 class RFIDData(BaseModel):
-    text: str
+    employee_id: str
 
 class LCDData(BaseModel):
     text: str
