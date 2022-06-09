@@ -18,6 +18,7 @@ async def read_rfid_card():
         print("Place your tag to read...")
         print_to_lcd("Place card")
         uid, employee_id = reader.read()
+        employee_id = employee_id.strip()
         print(f"Tag read #: {uid} \n Data: {employee_id}")
         print_to_lcd("Card read!")
         return {"data": {"uid": uid, "employee_id": employee_id}}
