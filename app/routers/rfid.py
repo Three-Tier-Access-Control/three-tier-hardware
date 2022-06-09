@@ -40,10 +40,15 @@ async def write_to_rfid_card(data: RFIDData):
         print("Now place your tag to write")
         print_to_lcd("Place card")
         reader.write(data.employee_id)
+        uid, employee_id = reader.read()
         print("Tag has been successfully written!")
+        print(f"Tag written #: {uid} \n Data: {employee_id}")
         print_to_lcd("Card written!")
 
-        return {"detail": "Tag has been successfully written!"}
+        return {
+            "data": {"uid": uid, "employee_id": employee_id},
+            "detail": "Tag has been successfully written!",
+        }
     except Exception as e:
         print(f"Error: {e}")
         raise HTTPException(
