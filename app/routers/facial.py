@@ -3,6 +3,7 @@ import face_recognition
 import cv2
 import numpy as np
 from pymongo import MongoClient
+from app.routers.lcd import print_to_lcd
 
 client = MongoClient('localhost', 27017)
 
@@ -19,6 +20,9 @@ router = APIRouter(tags=["Facial Recognition"])
 
 @router.get("/recognize-face")
 async def recognise_face():
+    
+    print_to_lcd("Show your face")
+
     # Get a reference to webcam #0 (the default one)
     video_capture = cv2.VideoCapture(2)
 
@@ -83,7 +87,7 @@ async def recognise_face():
                     # Release handle to the webcam
                     video_capture.release()
                     cv2.destroyAllWindows()
-                    
+                    print_to_lcd("Face recognized")
                     return {"id": id}
 
 
