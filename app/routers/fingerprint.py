@@ -58,7 +58,7 @@ def get_fingerprint():
         )
         # return False
     print("Searching for a match...")
-    print_to_lcd("Searching")
+    # print_to_lcd("Searching")
     if finger.finger_search() != adafruit_fingerprint.OK:
         print("Finger not found")
         print_to_lcd("Not found")
@@ -140,21 +140,21 @@ def enroll_finger(fingerprint: Fingerprint):
 
     for fingerimg in range(1, 3):
         if fingerimg == 1:
-            print_to_lcd("Place finger (1)")
+            print_to_lcd("Place finger")
             print("Place finger on sensor...", end="", flush=True)
         else:
-            print_to_lcd("Place finger (2)")
+            print_to_lcd("Place finger")
             print("Place same finger again...", end="", flush=True)
 
         while True:
             i = finger.get_image()
             if i == adafruit_fingerprint.OK:
                 print("Image taken")
-                print_to_lcd("Image taken")
+                # print_to_lcd("Image taken")
                 break
             if i == adafruit_fingerprint.NOFINGER:
                 print_to_lcd(".")
-                print(".", end="", flush=True)
+                # print(".", end="", flush=True)
             elif i == adafruit_fingerprint.IMAGEFAIL:
                 print("Imaging error")
                 print_to_lcd("Imaging error")
@@ -173,12 +173,12 @@ def enroll_finger(fingerprint: Fingerprint):
                 # return False
 
         print("Templating...", end="", flush=True)
-        print_to_lcd("Templating")
+        # print_to_lcd("Templating")
 
         i = finger.image_2_tz(fingerimg)
         if i == adafruit_fingerprint.OK:
             print("Templated")
-            print_to_lcd("Templating done!")
+            # print_to_lcd("Templated")
 
         else:
             if i == adafruit_fingerprint.IMAGEMESS:
@@ -219,12 +219,12 @@ def enroll_finger(fingerprint: Fingerprint):
                 i = finger.get_image()
 
     print("Creating model...", end="", flush=True)
-    print_to_lcd("Creating model")
+    # print_to_lcd("Creating model")
 
     i = finger.create_model()
     if i == adafruit_fingerprint.OK:
         print("Created")
-        print_to_lcd("Created")
+        # print_to_lcd("Model Created")
     else:
         if i == adafruit_fingerprint.ENROLLMISMATCH:
             print("Prints did not match")
@@ -243,11 +243,11 @@ def enroll_finger(fingerprint: Fingerprint):
         # return False
 
     print("Storing model #%d..." % fingerprint.location, end="", flush=True)
-    print_to_lcd("Storing")
+    # print_to_lcd("Storing")
     i = finger.store_model(fingerprint.location)
     if i == adafruit_fingerprint.OK:
         print("Stored")
-        print_to_lcd("Fingerprint stored")
+        print_to_lcd("Finger stored")
     else:
         if i == adafruit_fingerprint.BADLOCATION:
             print("Bad storage location")
