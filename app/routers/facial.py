@@ -23,7 +23,7 @@ router = APIRouter(tags=["Facial Recognition"])
 @router.get("/recognize-face")
 async def recognise_face():
     
-    print_to_lcd("Show your face")
+    print_to_lcd("Show face")
 
     # Get a reference to webcam #0 (the default one)
     video_capture = cv2.VideoCapture(0)
