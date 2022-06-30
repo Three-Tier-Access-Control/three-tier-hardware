@@ -24,7 +24,7 @@ async def recognise_face():
     print_to_lcd("Show your face")
 
     # Get a reference to webcam #0 (the default one)
-    video_capture = cv2.VideoCapture(2)
+    video_capture = cv2.VideoCapture(0)
 
     # Create arrays of known face encodings and their names
     all_docs = list(faces.find({}))
