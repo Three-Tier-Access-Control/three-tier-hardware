@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # from app.routers import rfid, lcd, gpio
 # from app.routers import facial
 
-from app.routers import  lcd, rfid, gpio, facial
+from app.routers import  lcd, gpio, facial
 
 tags_metadata = [
     {
