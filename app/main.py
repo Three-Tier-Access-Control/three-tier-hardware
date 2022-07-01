@@ -72,10 +72,10 @@ async def root():
 #     fingerprint.router,
 #     prefix="/api/v1",
 # )
-app.include_router(
-    rfid.router,
-    prefix="/api/v1",
-)
+# app.include_router(
+#     rfid.router,
+#     prefix="/api/v1",
+# )
 app.include_router(
     lcd.router,
     prefix="/api/v1",
