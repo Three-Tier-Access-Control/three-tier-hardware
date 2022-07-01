@@ -14,8 +14,6 @@ router = APIRouter(tags=["GPIO Pins"])
 @router.post("/turn-on")
 async def turn_on_gpio_pin(pin: Pin):
     number = pin.number
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
     GPIO.setup(number, GPIO.OUT)
     GPIO.output(number, GPIO.HIGH)
     return {"data": f"Pin {number} has been turned on"}
@@ -23,8 +21,6 @@ async def turn_on_gpio_pin(pin: Pin):
 
 @router.post("/turn-off")
 async def turn_off_gpio_pin(pin: Pin):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
     number = pin.number
     GPIO.setup(number, GPIO.OUT)
     GPIO.output(number, GPIO.LOW)
