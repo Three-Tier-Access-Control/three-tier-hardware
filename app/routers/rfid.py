@@ -8,19 +8,20 @@ from time import *
 
 
 router = APIRouter(tags=["RFID Module"])
+reader = SimpleMFRC522()
 
 
 # Read data to RFID Card
 @router.get("/read-rfid-card")
 async def read_rfid_card():
     try:
-        reader = SimpleMFRC522()
         print("Place your tag to read...")
         print_to_lcd("Place card")
         uid, employee_id = reader.read()
         employee_id = employee_id.strip()
         print(f"Tag read #: {uid} \n Data: {employee_id}")
         print_to_lcd("Card read!")
+        GPIO.cleanup()
         return {"data": {"uid": uid, "employee_id": employee_id}}
     except Exception as e:
         print(f"Error: {e}")
@@ -36,7 +37,6 @@ async def read_rfid_card():
 @router.post("/write-to-rfid-card")
 async def write_to_rfid_card(data: RFIDData):
     try:
-        reader = SimpleMFRC522()
         print("Now place your tag to write")
         print_to_lcd("Place card")
         reader.write(data.employee_id)
@@ -44,7 +44,7 @@ async def write_to_rfid_card(data: RFIDData):
         print("Tag has been successfully written!")
         print(f"Tag written #: {uid} \n Data: {employee_id}")
         print_to_lcd("Card written!")
-
+        GPIO.cleanup()
         return {
             "data": {"uid": uid, "employee_id": employee_id},
             "detail": "Tag has been successfully written!",
