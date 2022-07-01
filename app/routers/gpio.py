@@ -4,7 +4,7 @@ from time import sleep
 from schema import Pin
 import RPi.GPIO as GPIO
 
-GPIO.setmode(GPIO.BCM)
+# GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 
