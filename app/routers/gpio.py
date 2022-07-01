@@ -5,7 +5,7 @@ from schema import Pin
 import RPi.GPIO as GPIO
 
 # GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
+# GPIO.setwarnings(False)
 
 
 router = APIRouter(tags=["GPIO Pins"])
