@@ -3,10 +3,10 @@ from time import sleep
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import lcd
-# from app.routers import gpio
+from app.routers import gpio
 # from app.routers import facial
-from app.routers import rfid
-from app.routers import fingerprint
+# from app.routers import rfid
+# from app.routers import fingerprint
 
 
 tags_metadata = [
@@ -65,22 +65,22 @@ async def root():
     return {"message": "Hello World"}
 
 
-app.include_router(
-    fingerprint.router,
-    prefix="/api/v1",
-)
-app.include_router(
-    rfid.router,
-    prefix="/api/v1",
-)
+# app.include_router(
+#     fingerprint.router,
+#     prefix="/api/v1",
+# )
+# app.include_router(
+#     rfid.router,
+#     prefix="/api/v1",
+# )
 app.include_router(
     lcd.router,
     prefix="/api/v1",
 )
-# app.include_router(
-#     gpio.router,
-#     prefix="/api/v1",
-# )
+app.include_router(
+    gpio.router,
+    prefix="/api/v1",
+)
 
 
 # app.include_router(
