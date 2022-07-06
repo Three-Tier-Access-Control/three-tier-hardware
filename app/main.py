@@ -14,10 +14,6 @@ tags_metadata = [
         "description": "Display text to LCD Display Module.",
     },
     {
-        "name": "LED Lights",
-        "description": "Turn on and off LED Lights.",
-    },
-    {
         "name": "RFID Module",
         "description": "Read and Write to RFID Cards.",
     },
@@ -68,7 +64,6 @@ async def root():
     return {"message": "Hello World"}
 
 
-app.include_router(led.router)
 app.include_router(
     fingerprint.router,
     prefix="/api/v1",
