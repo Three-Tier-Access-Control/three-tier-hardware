@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from time import sleep
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import lcd, gpio
+from app.routers import lcd
+# from app.routers import gpio
 # from app.routers import facial
 from app.routers import rfid
 from app.routers import fingerprint
@@ -76,10 +77,10 @@ app.include_router(
     lcd.router,
     prefix="/api/v1",
 )
-app.include_router(
-    gpio.router,
-    prefix="/api/v1",
-)
+# app.include_router(
+#     gpio.router,
+#     prefix="/api/v1",
+# )
 
 
 # app.include_router(
