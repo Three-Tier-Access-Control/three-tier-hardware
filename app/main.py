@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # from app.routers import rfid, lcd, gpio
 # from app.routers import facial
 
-from app.routers import  lcd, gpio, facial
+from app.routers import lcd, gpio, facial, fingerprint
 
 tags_metadata = [
     {
@@ -67,11 +67,11 @@ async def root():
     return {"message": "Hello World"}
 
 
-# app.include_router(led.router)
-# app.include_router(
-#     fingerprint.router,
-#     prefix="/api/v1",
-# )
+app.include_router(led.router)
+app.include_router(
+    fingerprint.router,
+    prefix="/api/v1",
+)
 # app.include_router(
 #     rfid.router,
 #     prefix="/api/v1",
