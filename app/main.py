@@ -2,10 +2,11 @@ from fastapi import FastAPI
 from time import sleep
 from fastapi.middleware.cors import CORSMiddleware
 
-# from app.routers import rfid, lcd, gpio
+from app.routers import lcd, gpio
 # from app.routers import facial
+# from app.routers import rfid
+from app.routers import fingerprint
 
-from app.routers import lcd, gpio, facial, fingerprint
 
 tags_metadata = [
     {
@@ -86,7 +87,7 @@ app.include_router(
 )
 
 
-app.include_router(
-    facial.router,
-    prefix="/api/v1",
-)
+# app.include_router(
+#     facial.router,
+#     prefix="/api/v1",
+# )
